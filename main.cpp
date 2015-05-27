@@ -18,26 +18,8 @@ SDL_Texture *background;
 SDL_Rect rect_background;
 Mix_Music *mscMusic = NULL;
 
-int main( int argc, char* args[] )
+void juego()
 {
-    //Init SDL
-    if(SDL_Init(SDL_INIT_EVERYTHING) < 0)
-    {
-        return 10;
-    }
-    //Creates a SDL Window
-    if((window = SDL_CreateWindow("Image Loading", 100, 100, 640/*WIDTH*/, 480/*HEIGHT*/, SDL_WINDOW_RESIZABLE | SDL_RENDERER_PRESENTVSYNC)) == NULL)
-    {
-        return 20;
-    }
-    //SDL Renderer
-    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED );
-    if (renderer == NULL)
-    {
-        std::cout << SDL_GetError() << std::endl;
-        return 30;
-    }
-
     //init music
     if(Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT,2,2048) <0)
     {
@@ -68,7 +50,7 @@ int main( int argc, char* args[] )
     unsigned int frame_anterior = SDL_GetTicks();
 
     list<Personaje*>personajes;
-    personajes.push_back(new Jugador(renderer));
+    personajes.push_back(new Jugador(renderer,&personajes));
     personajes.push_back(new Enemigo(renderer));
     personajes.push_back(new Enemigo2(renderer));
     personajes.push_back(new Enemigo3(renderer));
@@ -81,11 +63,11 @@ int main( int argc, char* args[] )
         {
             if(Event.type == SDL_QUIT)
             {
-                return 0;
+                return;
             }
         }
         if(Mix_PlayingMusic()==0){
-            Mix_PlayMusic(mscMusic, -5);
+            Mix_PlayMusic(mscMusic, -1);
         }
 
         for(list<Personaje*>::iterator i=personajes.begin();
@@ -110,6 +92,60 @@ int main( int argc, char* args[] )
     Mix_FreeMusic(mscMusic);
     mscMusic = NULL;
     Mix_Quit();
+}
+
+void menu()
+{
+int w,h;
+    SDL_Texture* background_menu = IMG_LoadTexture(renderer,"menu.png");
+    SDL_QueryTexture(background_menu, NULL, NULL, &w, &h);
+    rect_background.x = 0;
+    rect_background.y = 0;
+    rect_background.w = w;
+    rect_background.h = h;
+
+    while(true)
+    {
+        while(SDL_PollEvent(&Event))
+        {
+            if(Event.type == SDL_QUIT)
+            {
+                return;
+            }
+            if(Event.type == SDL_KEYDOWN)
+            {
+                if(Event.key.keysym.sym == SDLK_RETURN)
+                {
+                    juego();
+                }
+            }
+        }
+        SDL_RenderCopy(renderer, background_menu, NULL, &rect_background);
+        SDL_RenderPresent(renderer);
+    }
+}
+
+int main( int argc, char* args[] )
+{
+    //Init SDL
+    if(SDL_Init(SDL_INIT_EVERYTHING) < 0)
+    {
+        return 10;
+    }
+    //Creates a SDL Window
+    if((window = SDL_CreateWindow("Image Loading", 100, 100, 640/*WIDTH*/, 480/*HEIGHT*/, SDL_WINDOW_RESIZABLE | SDL_RENDERER_PRESENTVSYNC)) == NULL)
+    {
+        return 20;
+    }
+    //SDL Renderer
+    renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED );
+    if (renderer == NULL)
+    {
+        std::cout << SDL_GetError() << std::endl;
+        return 30;
+    }
+
+    menu();
 
 	return 0;
 }

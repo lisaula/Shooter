@@ -5,12 +5,12 @@
 class Enemigo2 : public Personaje
 {
     public:
-        SDL_Texture *textura, *textura_bala;
-        SDL_Rect rect_textura, rect_bala;
-        SDL_Renderer *renderer;
-
+        float velocidad;
         void dibujar();
         void logica();
+        float getX();
+        float getY();
+        void movedBy(float x, float y);
 
         Enemigo2(SDL_Renderer* renderer);
         virtual ~Enemigo2();

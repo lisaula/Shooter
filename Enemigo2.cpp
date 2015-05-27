@@ -17,17 +17,35 @@ Enemigo2::Enemigo2(SDL_Renderer *renderer)
     rect_bala.y = 200;
     rect_bala.w = w;
     rect_bala.h = h;
+    velocidad =1;
 }
 
 void Enemigo2:: dibujar(){
     SDL_RenderCopy(renderer, textura, NULL, &rect_textura);
 }
-
+float Enemigo2 :: getX(){
+    return rect_textura.x;
+}
+float Enemigo2 :: getY(){
+    return rect_textura.y;
+}
+void Enemigo2 :: movedBy(float x, float y){
+    rect_textura.x +=x;
+    rect_textura.y +=y;
+}
 void Enemigo2:: logica(){
-    rect_textura.x-=1;
-    if(rect_textura.x <=0){
-            rect_textura.x =581;
+    if(rect_textura.x >=581){
+        velocidad *= -1;
     }
+    if(getX()<=0){
+        velocidad *=-1;
+    }
+    movedBy(velocidad,0);
+
+//    rect_textura.x-=1;
+//    if(rect_textura.x <=0){
+//            rect_textura.x =581;
+//    }
 }
 
 Enemigo2::~Enemigo2()
