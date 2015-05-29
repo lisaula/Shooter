@@ -14,9 +14,10 @@ using namespace std;
 SDL_Window* window;
 SDL_Renderer* renderer;
 SDL_Event Event;
-SDL_Texture *background;
-SDL_Rect rect_background;
+SDL_Texture *background, *pausa;
+SDL_Rect rect_background, rect_pausa;
 Mix_Music *mscMusic = NULL;
+bool estaPausado;
 
 void juego()
 {
@@ -33,6 +34,8 @@ void juego()
 
     //Init textures
     int w=0,h=0;
+
+
     background = IMG_LoadTexture(renderer,"fondo.png");
     SDL_QueryTexture(background, NULL, NULL, &w, &h);
     rect_background.x = 0;
@@ -40,20 +43,21 @@ void juego()
     rect_background.w = w;
     rect_background.h = h;
 
-//    float enemigo_y = 0;
-
-    //Main Loop
-//    float personaje_x = 100;
-//    float personaje_y = 100;
-//    list<SDL_Rect*>balas;
-
     unsigned int frame_anterior = SDL_GetTicks();
 
     list<Personaje*>personajes;
     personajes.push_back(new Jugador(renderer,&personajes));
-    personajes.push_back(new Enemigo(renderer));
-    personajes.push_back(new Enemigo2(renderer));
-    personajes.push_back(new Enemigo3(renderer));
+    personajes.push_back(new Enemigo(renderer,&personajes));
+    personajes.push_back(new Enemigo2(renderer,&personajes));
+    personajes.push_back(new Enemigo3(renderer,&personajes));
+
+    int w1=0,h1=0;
+    pausa = IMG_LoadTexture(renderer,"pausado.png");
+    SDL_QueryTexture(pausa, NULL, NULL, &w1, &h1);
+    rect_pausa.x = 0;
+    rect_pausa.y = 0;
+    rect_pausa.w = w1;
+    rect_pausa.h = h1;
 
     int frame=0;
 
@@ -65,22 +69,45 @@ void juego()
             {
                 return;
             }
+            if(Event.type == SDL_KEYDOWN)
+            {
+                if(Event.key.keysym.sym == SDLK_ESCAPE)
+                {
+                    estaPausado = true;
+                }
+                if(Event.key.keysym.sym == SDLK_RETURN){
+                    estaPausado=false;
+                }
+            }
         }
         if(Mix_PlayingMusic()==0){
             Mix_PlayMusic(mscMusic, -1);
         }
 
+        if(!estaPausado){
         for(list<Personaje*>::iterator i=personajes.begin();
             i!=personajes.end();
             i++)
             (*i)->logica();
-
+        }
         SDL_RenderCopy(renderer, background, NULL, &rect_background);
 
         for(list<Personaje*>::iterator i=personajes.begin();
             i!=personajes.end();
             i++)
             (*i)->dibujar();
+
+        for(list<Personaje*>::iterator i=personajes.begin();
+            i!=personajes.end();
+            i++){
+            if((*i)->fueTocado()){
+                return;
+            }
+        }
+
+        if(estaPausado){
+            SDL_RenderCopy(renderer, pausa, NULL, &rect_pausa);
+        }
 
         if((SDL_GetTicks()-frame_anterior)<17)
             SDL_Delay(17-(SDL_GetTicks()-frame_anterior));
@@ -118,6 +145,7 @@ int w,h;
                 {
                     juego();
                 }
+
             }
         }
         SDL_RenderCopy(renderer, background_menu, NULL, &rect_background);

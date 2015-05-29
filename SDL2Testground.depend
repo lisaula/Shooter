@@ -584,7 +584,7 @@
 1431735316 /home/turupawn/Clases/Progra3/SDL2TestSimple-master/Jugador.h
 	"Personaje.h"
 
-1432696934 source:/home/luis/Descargas/Shooter-master/main.cpp
+1432853113 source:/home/luis/Descargas/Shooter-master/main.cpp
 	<SDL2/SDL.h>
 	<SDL2/SDL_image.h>
 	<iostream>
@@ -595,38 +595,40 @@
 	"Enemigo3.h"
 	<SDL2/SDL_mixer.h>
 
-1432696521 /home/luis/Descargas/Shooter-master/Jugador.h
+1432850914 /home/luis/Descargas/Shooter-master/Jugador.h
 	"Personaje.h"
 	<vector>
 	<list>
 	<iostream>
 
-1432696459 /home/luis/Descargas/Shooter-master/Personaje.h
+1432853284 /home/luis/Descargas/Shooter-master/Personaje.h
 	<list>
+	<vector>
 	<SDL2/SDL.h>
 	<SDL2/SDL_image.h>
 
-1432696459 /home/luis/Descargas/Shooter-master/Enemigo.h
+1432850767 /home/luis/Descargas/Shooter-master/Enemigo.h
+	"Jugador.h"
 	"Personaje.h"
 
-1432696349 source:/home/luis/Descargas/Shooter-master/Jugador.cpp
+1432852221 source:/home/luis/Descargas/Shooter-master/Jugador.cpp
 	"Jugador.h"
 
 1432696459 source:/home/luis/Descargas/Shooter-master/Personaje.cpp
 	"Personaje.h"
 
-1432696459 source:/home/luis/Descargas/Shooter-master/Enemigo.cpp
+1432853626 source:/home/luis/Descargas/Shooter-master/Enemigo.cpp
 	"Enemigo.h"
 
-1432338691 source:/home/luis/Descargas/Shooter-master/Enemigo2.cpp
+1432853626 source:/home/luis/Descargas/Shooter-master/Enemigo2.cpp
 	"Enemigo2.h"
 
-1432696220 /home/luis/Descargas/Shooter-master/Enemigo2.h
+1432852777 /home/luis/Descargas/Shooter-master/Enemigo2.h
 	"Personaje.h"
 
-1432331534 source:/home/luis/Descargas/Shooter-master/Enemigo3.cpp
+1432857672 source:/home/luis/Descargas/Shooter-master/Enemigo3.cpp
 	"Enemigo3.h"
 
-1432696220 /home/luis/Descargas/Shooter-master/Enemigo3.h
+1432854200 /home/luis/Descargas/Shooter-master/Enemigo3.h
 	"Personaje.h"
 

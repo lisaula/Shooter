@@ -9,16 +9,9 @@ using namespace std;
 class Jugador : public Personaje
 {
     public:
-        vector<SDL_Rect> rect_balas;
-        list<Personaje*>*personajes;
-        int velocidad;
-        int velocidad_bala;
-
-
         void dibujar();
         void logica();
-
-
+        bool fueTocado();
         Jugador(SDL_Renderer *renderer,list<Personaje*>*personajes);
         virtual ~Jugador();
     protected:

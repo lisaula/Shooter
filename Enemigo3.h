@@ -5,11 +5,12 @@
 class Enemigo3: public Personaje
 {
     public:
-
+        float width, height;
         void dibujar();
         void logica();
-
-        Enemigo3(SDL_Renderer* renderer);
+        bool fueTocado();
+        bool puedo;
+        Enemigo3(SDL_Renderer* renderer,list<Personaje*>*personajes);
         virtual ~Enemigo3();
     protected:
     private:

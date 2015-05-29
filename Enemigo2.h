@@ -5,14 +5,10 @@
 class Enemigo2 : public Personaje
 {
     public:
-        float velocidad;
         void dibujar();
         void logica();
-        float getX();
-        float getY();
-        void movedBy(float x, float y);
-
-        Enemigo2(SDL_Renderer* renderer);
+        bool fueTocado();
+        Enemigo2(SDL_Renderer* renderer,list<Personaje*>*personajes);
         virtual ~Enemigo2();
     protected:
     private:

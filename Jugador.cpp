@@ -19,10 +19,12 @@ Jugador::Jugador(SDL_Renderer *renderer,list<Personaje*>*personajes)
     rect_bala.w = w;
     rect_bala.h = h;
 
-    velocidad=3;
+    frame=0;
     velocidad_bala=10;
 }
-
+bool Jugador::fueTocado(){
+    return false;
+}
 void Jugador::dibujar()
 {
     SDL_RenderCopy(renderer, textura, NULL, &rect_textura);
@@ -34,8 +36,11 @@ void Jugador::logica()
 {
     for(int i=0;i<rect_balas.size();i++)
         rect_balas[i].x+=velocidad_bala;
-
+    velocidad=3;
     const Uint8* estaPresionada = SDL_GetKeyboardState( NULL );
+    if(estaPresionada[ SDL_SCANCODE_LSHIFT]){
+        velocidad=5;
+    }
     if(estaPresionada[ SDL_SCANCODE_LEFT])
     {
         rect_textura.x-=velocidad;
@@ -57,8 +62,8 @@ void Jugador::logica()
         if(frame%10==0)
         {
             SDL_Rect temp;
-            temp.x=rect_textura.x;
-            temp.y=rect_textura.y;
+            temp.x=rect_textura.x+52.5;
+            temp.y=rect_textura.y+29;
             temp.w=rect_bala.w;
             temp.h=rect_bala.h;
             rect_balas.push_back(temp);
@@ -82,11 +87,19 @@ void Jugador::logica()
                )
             {
                 personajes->erase(i);
+                rect_balas.erase(rect_balas.begin()+j);
                 return;
+            }
+            if(rect_balas[j].x>=609){
+                rect_balas.erase(rect_balas.begin()+j);
             }
         }
     }
+
+
     frame++;
+//    pos_x=rect_textura.x;
+//    pos_y=rect_textura.y;
 }
 
 Jugador::~Jugador()
